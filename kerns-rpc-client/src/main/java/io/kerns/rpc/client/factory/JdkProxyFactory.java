@@ -2,7 +2,7 @@ package io.kerns.rpc.client.factory;
 
 import io.kerns.rpc.client.discover.Discover;
 import io.kerns.rpc.client.net.NetClient;
-import io.kerns.rpc.common.protocol.Protocol;
+import io.kerns.rpc.common.protocol.MessageProtocol;
 import io.kerns.rpc.common.bean.Request;
 import io.kerns.rpc.common.bean.Response;
 import io.kerns.rpc.common.bean.ServerInfo;
@@ -20,7 +20,7 @@ public class JdkProxyFactory implements ProxyFactory {
 
     private NetClient netClient;
 
-    private Protocol protocol;
+    private MessageProtocol protocol;
 
     /**
      * 返回jkd代理类
@@ -40,7 +40,7 @@ public class JdkProxyFactory implements ProxyFactory {
          /**
           * 传输协议
           */
-         private Protocol protocol;
+         private MessageProtocol protocol;
          /**
           * 服务发现
           */
