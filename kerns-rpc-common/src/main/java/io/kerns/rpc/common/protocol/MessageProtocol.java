@@ -22,7 +22,7 @@ public interface MessageProtocol {
     Request decodeRequest(byte[] request);
 
     /**
-     *
+     * 加密返回结果
      * @param response
      * @return
      */
