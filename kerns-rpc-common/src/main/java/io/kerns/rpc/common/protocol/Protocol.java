@@ -1,4 +1,4 @@
-package io.kerns.rpc.client.protocol;
+package io.kerns.rpc.common.protocol;
 
 import io.kerns.rpc.common.bean.Request;
 import io.kerns.rpc.common.bean.Response;

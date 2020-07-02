@@ -2,7 +2,7 @@ package io.kerns.rpc.client.factory;
 
 import io.kerns.rpc.client.discover.Discover;
 import io.kerns.rpc.client.net.NetClient;
-import io.kerns.rpc.client.protocol.Protocol;
+import io.kerns.rpc.common.protocol.Protocol;
 import io.kerns.rpc.common.bean.Request;
 import io.kerns.rpc.common.bean.Response;
 import io.kerns.rpc.common.bean.ServerInfo;

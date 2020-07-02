@@ -3,7 +3,7 @@ package io.kerns.rpc.client.discover;
 import io.kerns.rpc.common.bean.ServerInfo;
 
 /**
- * 服务发现，通过负载均衡或者随机算法，返回一个服务的信息
+ * 服务发现，通过负载均衡或者随机算法，返回一个服务的信息,可以通过etcd，zookeeper来做服务发现
  */
 public interface Discover {
     /**
