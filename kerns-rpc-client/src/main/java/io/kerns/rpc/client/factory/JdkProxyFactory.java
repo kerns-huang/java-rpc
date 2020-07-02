@@ -22,8 +22,14 @@ public class JdkProxyFactory implements ProxyFactory {
 
     private Protocol protocol;
 
-    public void getProxy(Class<?> clz){
-        Proxy.getInvocationHandler(new JdkInvocationHandler());
+    /**
+     * 返回jkd代理类
+     * @param clz
+     * @param <T>
+     * @return
+     */
+    public <T> T getProxy(Class<T> clz){
+       return (T)Proxy.newProxyInstance(clz.getClassLoader(),clz.getInterfaces(),new JdkInvocationHandler());
     }
 
      static class JdkInvocationHandler implements InvocationHandler{
@@ -40,6 +46,14 @@ public class JdkProxyFactory implements ProxyFactory {
           */
          private Discover discover;
 
+         /**
+          * 执行代理方法
+          * @param proxy
+          * @param method
+          * @param args
+          * @return
+          * @throws Throwable
+          */
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Request request=new Request();
             request.setTarget(proxy.getClass().getName());
