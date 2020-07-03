@@ -60,13 +60,13 @@ public class JdkProxyFactory implements ProxyFactory {
             request.setMethod(method.getName());
             request.setArgs(args);
             //协议加密
-            byte[] requestByte=  protocol.encode(request);
+            byte[] requestByte=  protocol.encodeRequest(request);
             //发现服务信息，从多个服务按照负载规则获取一个服务信息
             ServerInfo serverInfo= discover.discover(proxy);
             //通过网络包发送数据
              byte[] responseByte= netClient.send(serverInfo,requestByte);
              //解密成为response对象
-             Response response= protocol.decode(responseByte);
+             Response response= protocol.decodeResponse(responseByte);
              //是否有异常信息
              if(response.getException()!=null){
                  throw  response.getException();
