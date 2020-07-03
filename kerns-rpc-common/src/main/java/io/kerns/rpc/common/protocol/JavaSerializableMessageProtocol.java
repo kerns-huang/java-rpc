@@ -9,7 +9,7 @@ import java.io.*;
  * @author xiaohei
  * @create 2020-07-03 下午8:21
  **/
-public class JavaSerMessageProtocol implements MessageProtocol {
+public class JavaSerializableMessageProtocol implements MessageProtocol {
 
     public byte[] encodeRequest(Request request) {
         return encode(request);
