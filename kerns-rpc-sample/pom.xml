@@ -3,23 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>io.kerns.rpc</groupId>
         <artifactId>kerns-rpc</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.example</groupId>
-    <artifactId>kerns-rpc-httpclient</artifactId>
+    <groupId>io.kerns.rpc</groupId>
+    <artifactId>kerns-rpc-sample</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>io.kerns.rpc</groupId>
-            <artifactId>kerns-rpc-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>kerns-rpc-sample-common</module>
+        <module>kerns-rpc-sample-client</module>
+        <module>kerns-rpc-sample-server</module>
+    </modules>
 
 
 </project>

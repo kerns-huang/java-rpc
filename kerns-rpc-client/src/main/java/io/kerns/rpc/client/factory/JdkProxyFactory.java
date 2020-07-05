@@ -6,6 +6,7 @@ import io.kerns.rpc.common.protocol.MessageProtocol;
 import io.kerns.rpc.common.bean.Request;
 import io.kerns.rpc.common.bean.Response;
 import io.kerns.rpc.common.bean.ServerInfo;
+import lombok.Setter;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -15,12 +16,18 @@ import java.lang.reflect.Proxy;
  * @author xiaohei
  * @create 2020-07-02 上午10:36
  **/
+@Setter
 public class JdkProxyFactory implements ProxyFactory {
 
 
     private NetClient netClient;
 
     private MessageProtocol protocol;
+
+    /**
+     * 服务发现
+     */
+    private Discover discover;
 
     /**
      * 返回jkd代理类

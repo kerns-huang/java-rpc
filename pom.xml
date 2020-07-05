@@ -11,6 +11,7 @@
         <module>kerns-rpc-common</module>
         <module>kerns-rpc-client</module>
         <module>kerns-rpc-server</module>
+        <module>kerns-rpc-sample</module>
     </modules>
     <dependencies>
         <dependency>

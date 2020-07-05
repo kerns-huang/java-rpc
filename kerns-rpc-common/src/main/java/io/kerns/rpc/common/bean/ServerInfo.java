@@ -3,6 +3,8 @@ package io.kerns.rpc.common.bean;
 import io.kerns.rpc.common.enums.ProtocolType;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 服务端信息,包含基本的调用信息
  *
@@ -10,7 +12,7 @@ import lombok.Data;
  * @create 2020-07-02 上午11:17
  **/
 @Data
-public class ServerInfo {
+public class ServerInfo implements Serializable {
 
     private String ip;
 
