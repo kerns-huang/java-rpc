@@ -6,5 +6,5 @@ package io.kerns.rpc.server;
 public interface RpcServer {
 
 
-
+    void start() throws Exception;
 }

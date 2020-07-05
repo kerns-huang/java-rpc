@@ -12,9 +12,19 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SocketNioTcpRpcServer implements RpcServer  {
+public class SocketNioTcpRpcServer implements RpcServer {
 
-    public void start() throws Exception{
+    public static void main(String[] args) {
+        try {
+            SocketNioTcpRpcServer socketNioTcpRpcServer = new SocketNioTcpRpcServer();
+            socketNioTcpRpcServer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void start() throws Exception {
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
         ServerSocket ss = serverChannel.socket();
@@ -23,12 +33,11 @@ public class SocketNioTcpRpcServer implements RpcServer  {
         Selector selector = Selector.open();                        //2
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);    //3
         final ByteBuffer msg = ByteBuffer.wrap("Hi!\r\n".getBytes());
-        for (;;) {
+        for (; ; ) {
             try {
                 selector.select();                                    //4
             } catch (IOException ex) {
                 ex.printStackTrace();
-                // handle exception
                 break;
             }
             Set<SelectionKey> readyKeys = selector.selectedKeys();    //5
@@ -37,20 +46,22 @@ public class SocketNioTcpRpcServer implements RpcServer  {
                 SelectionKey key = iterator.next();
                 iterator.remove();
                 try {
-                    if (key.isAcceptable()) {                //6
+                    if (key.isAcceptable()) {                //准备接受数据
                         ServerSocketChannel server =
-                                (ServerSocketChannel)key.channel();
+                                (ServerSocketChannel) key.channel();
                         SocketChannel client = server.accept();
                         client.configureBlocking(false);
                         client.register(selector, SelectionKey.OP_WRITE |
                                 SelectionKey.OP_READ, msg.duplicate());    //7
                         System.out.println(
                                 "Accepted connection from " + client);
+                        ByteBuffer byteBuffer=ByteBuffer.allocateDirect(4);
+                        client.read(byteBuffer);
                     }
                     if (key.isWritable()) {                //8
                         SocketChannel client =
-                                (SocketChannel)key.channel();
-                        ByteBuffer buffer =(ByteBuffer)key.attachment();
+                                (SocketChannel) key.channel();
+                        ByteBuffer buffer = (ByteBuffer) key.attachment();
                         while (buffer.hasRemaining()) {
                             if (client.write(buffer) == 0) {        //9
                                 break;

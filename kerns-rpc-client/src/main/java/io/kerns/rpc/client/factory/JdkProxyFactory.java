@@ -31,54 +31,63 @@ public class JdkProxyFactory implements ProxyFactory {
 
     /**
      * 返回jkd代理类
+     *
      * @param clz
      * @param <T>
      * @return
      */
-    public <T> T getProxy(Class<T> clz){
-       return (T)Proxy.newProxyInstance(clz.getClassLoader(),clz.getInterfaces(),new JdkInvocationHandler());
+    public <T> T getProxy(Class<T> clz) {
+        return (T) Proxy.newProxyInstance(clz.getClassLoader(), clz.getInterfaces(), new JdkInvocationHandler(netClient,protocol,discover));
     }
 
-     static class JdkInvocationHandler implements InvocationHandler{
-         /**
-          * 网络传输对象
-          */
-         private NetClient netClient;
-         /**
-          * 传输协议
-          */
-         private MessageProtocol protocol;
-         /**
-          * 服务发现
-          */
-         private Discover discover;
+    static class JdkInvocationHandler implements InvocationHandler {
+        /**
+         * 网络传输对象
+         */
+        private NetClient netClient;
+        /**
+         * 传输协议
+         */
+        private MessageProtocol protocol;
+        /**
+         * 服务发现
+         */
+        private Discover discover;
 
-         /**
-          * 执行代理方法
-          * @param proxy
-          * @param method
-          * @param args
-          * @return
-          * @throws Throwable
-          */
+
+        public JdkInvocationHandler(NetClient netClient, MessageProtocol protocol, Discover discover) {
+            this.netClient = netClient;
+            this.protocol = protocol;
+            this.discover = discover;
+        }
+
+        /**
+         * 执行代理方法
+         *
+         * @param proxy
+         * @param method
+         * @param args
+         * @return
+         * @throws Throwable
+         */
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Request request=new Request();
+            Request request = new Request();
             request.setTarget(proxy.getClass().getName());
             request.setMethod(method.getName());
             request.setArgs(args);
             //协议加密
-            byte[] requestByte=  protocol.encodeRequest(request);
+            byte[] requestByte = protocol.encodeRequest(request);
             //发现服务信息，从多个服务按照负载规则获取一个服务信息
-            ServerInfo serverInfo= discover.discover(proxy);
+            ServerInfo serverInfo = discover.discover(proxy);
             //通过网络包发送数据
-             byte[] responseByte= netClient.send(serverInfo,requestByte);
-             //解密成为response对象
-             Response response= protocol.decodeResponse(responseByte);
-             //是否有异常信息
-             if(response.getException()!=null){
-                 throw  response.getException();
-             }
-             return response.getResult();
+            byte[] responseByte = netClient.send(serverInfo, requestByte);
+            //解密成为response对象
+            Response response = protocol.decodeResponse(responseByte);
+            //是否有异常信息
+            if (response.getException() != null) {
+                throw response.getException();
+            }
+            return response.getResult();
         }
     }
 }
