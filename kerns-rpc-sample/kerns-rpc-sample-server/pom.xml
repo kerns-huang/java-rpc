@@ -10,5 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>kerns-rpc-sample-server</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>io.kerns.rpc</groupId>
+            <artifactId>kerns-rpc-sample-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.kerns.rpc</groupId>
+            <artifactId>kerns-rpc-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
