@@ -53,10 +53,10 @@ public class SocketNioTcpRpcServer implements RpcServer {
                         client.configureBlocking(false);
                         client.register(selector, SelectionKey.OP_WRITE |
                                 SelectionKey.OP_READ, msg.duplicate());    //7
-                        System.out.println(
-                                "Accepted connection from " + client);
+                        System.out.println("Accepted connection from " + client);
                         ByteBuffer byteBuffer=ByteBuffer.allocateDirect(4);
                         client.read(byteBuffer);
+                        System.out.println(byteBuffer);
                     }
                     if (key.isWritable()) {                //8
                         SocketChannel client =
