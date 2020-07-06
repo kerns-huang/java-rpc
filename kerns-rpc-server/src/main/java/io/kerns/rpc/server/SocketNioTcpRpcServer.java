@@ -56,10 +56,12 @@ public class SocketNioTcpRpcServer implements RpcServer {
                         System.out.println("Accepted connection from " + client);
                         ByteBuffer byteBuffer=ByteBuffer.allocate(4);
                         client.read(byteBuffer);
+                        byteBuffer.rewind();
                         int len= byteBuffer.getInt();
                         System.out.println(len);
                         ByteBuffer content=ByteBuffer.allocate(len);
                         client.read(content);
+                        byteBuffer.rewind();
                         System.out.println(new String(content.array()));
                     }
                     if (key.isWritable()) {                //8
