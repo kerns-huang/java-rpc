@@ -55,13 +55,13 @@ public class SocketNioTcpRpcServer implements RpcServer {
                                 SelectionKey.OP_READ, msg.duplicate());    //7
                         System.out.println("Accepted connection from " + client);
                         ByteBuffer byteBuffer=ByteBuffer.allocate(4);
-                        client.read(byteBuffer);
-                        byteBuffer.rewind();
+                        client.read(byteBuffer);//会修改position ？
+                        byteBuffer.rewind();//从头开始？
                         int len= byteBuffer.getInt();
                         System.out.println(len);
                         ByteBuffer content=ByteBuffer.allocate(len);
                         client.read(content);
-                        byteBuffer.rewind();
+                        content.rewind();
                         System.out.println(new String(content.array()));
                     }
                     if (key.isWritable()) {                //8
