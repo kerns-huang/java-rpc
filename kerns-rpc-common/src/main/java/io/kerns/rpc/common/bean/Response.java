@@ -16,6 +16,9 @@ public class Response implements Serializable {
     private String code;
     //返回消息
     private String msg;
+    /**
+     * 返回的结果对象
+     */
     private Object result;
 
 }
