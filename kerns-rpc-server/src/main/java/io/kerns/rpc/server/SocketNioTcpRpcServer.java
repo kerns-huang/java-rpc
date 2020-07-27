@@ -50,6 +50,7 @@ public class SocketNioTcpRpcServer implements RpcServer {
                 iterator.remove();
                 try {
                     if (key.isAcceptable()) {                //准备接受数据
+                        //TODO 获取通道信息
                         ServerSocketChannel server =
                                 (ServerSocketChannel) key.channel();
                         SocketChannel client = server.accept();
