@@ -12,6 +12,9 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * 不基于其它框架，使用 java 默认的socket 机制获取数据，呈现一个简单的demo
+ */
 public class SocketNioTcpRpcServer implements RpcServer {
 
     public static void main(String[] args) {
