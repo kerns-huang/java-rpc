@@ -7,7 +7,7 @@ import io.kerns.rpc.common.bean.ServerInfo;
  */
 public interface Register {
     /**
-     * 把自己注册到注册中心去
+     * 把自己注册到注册中心去,注册中心 选型 zookeeper,etcd,consol,naco，eruka 都OK
      */
    void register(ServerInfo serverInfo);
 

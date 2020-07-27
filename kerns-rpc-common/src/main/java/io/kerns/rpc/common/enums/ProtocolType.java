@@ -6,5 +6,8 @@ package io.kerns.rpc.common.enums;
  **/
 public enum ProtocolType {
     JavaSerializable,
+    JSON,
+    ProtocolBuff,
+    THRIFT,
     ;
 }
