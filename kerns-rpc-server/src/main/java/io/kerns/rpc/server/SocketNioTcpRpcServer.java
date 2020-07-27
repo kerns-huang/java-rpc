@@ -55,7 +55,6 @@ public class SocketNioTcpRpcServer implements RpcServer {
                                 (ServerSocketChannel) key.channel();
                         SocketChannel client = server.accept();
                         client.configureBlocking(false);
-                        //
                         client.register(selector,
                                 SelectionKey.OP_READ);    //7
                         System.out.println("Accepted connection from " + client);
