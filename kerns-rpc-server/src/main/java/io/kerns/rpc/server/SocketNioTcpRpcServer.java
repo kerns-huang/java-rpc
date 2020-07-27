@@ -49,50 +49,47 @@ public class SocketNioTcpRpcServer implements RpcServer {
                 SelectionKey key = iterator.next();
                 iterator.remove();
                 try {
-                    if (key.isValid()) {                //准备接受数据
-                        //TODO 获取通道信息
-                        if (key.isAcceptable()) {
-                            ServerSocketChannel server =
-                                    (ServerSocketChannel) key.channel();
-                            SocketChannel client = server.accept();
-                            client.configureBlocking(false);
-                            //
-                            client.register(selector,
-                                    SelectionKey.OP_READ);    //7
-                            System.out.println("Accepted connection from " + client);
-                        }
-                        if (key.isReadable()) {
-                            SocketChannel channel = (SocketChannel) key.channel();
-                            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-                            int readBytes = channel.read(byteBuffer);
-                            if (readBytes == -1) {
-                                System.out.println("关闭通道");
-                                channel.close();
-                            } else {
-                                byteBuffer.rewind();//从头开始？
-                                int len = byteBuffer.getInt();
-                                System.out.println(len);
-                                byte[] content = new byte[len];
-                                byteBuffer.get(content);
-                                /**
-                                 * 获取数据，通过协议层转换为request的对象，并添加给相应的handler去处理，并把处理结果返回回去。
-                                 */
-                                System.out.println(new String(content));
-                            }
-                        }
-                        if (key.isWritable()) {                //8
-                            SocketChannel client =
-                                    (SocketChannel) key.channel();
-                            ByteBuffer buffer = (ByteBuffer) key.attachment();
-                            while (buffer.hasRemaining()) {
-                                if (client.write(buffer) == 0) {        //9
-                                    break;
-                                }
-                            }
-                            client.close();                    //10
+                    //TODO 获取通道信息
+                    if (key.isAcceptable()) {
+                        ServerSocketChannel server =
+                                (ServerSocketChannel) key.channel();
+                        SocketChannel client = server.accept();
+                        client.configureBlocking(false);
+                        //
+                        client.register(selector,
+                                SelectionKey.OP_READ);    //7
+                        System.out.println("Accepted connection from " + client);
+                    }
+                    if (key.isReadable()) {
+                        SocketChannel channel = (SocketChannel) key.channel();
+                        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+                        int readBytes = channel.read(byteBuffer);
+                        if (readBytes == -1) {
+                            System.out.println("读取不到数据，关闭通道");
+                            channel.close();
+                        } else {
+                            byteBuffer.rewind();//从头开始？
+                            int len = byteBuffer.getInt();
+                            System.out.println(len);
+                            byte[] content = new byte[len];
+                            byteBuffer.get(content);
+                            /**
+                             * 获取数据，通过协议层转换为request的对象，并添加给相应的handler去处理，并把处理结果返回回去。
+                             */
+                            System.out.println(new String(content));
                         }
                     }
-
+                    if (key.isValid() && key.isWritable()) {                //8
+                        SocketChannel client =
+                                (SocketChannel) key.channel();
+                        ByteBuffer buffer = (ByteBuffer) key.attachment();
+                        while (buffer.hasRemaining()) {
+                            if (client.write(buffer) == 0) {        //9
+                                break;
+                            }
+                        }
+                        client.close();                    //10
+                    }
                 } catch (IOException ex) {
                     key.cancel();
                     try {
