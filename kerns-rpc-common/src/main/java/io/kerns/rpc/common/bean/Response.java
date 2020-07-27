@@ -12,8 +12,10 @@ import java.io.Serializable;
  **/
 @Data
 public class Response implements Serializable {
-
-    private Exception exception;
+    //返回的消息码。
+    private String code;
+    //返回消息
+    private String msg;
     private Object result;
 
 }

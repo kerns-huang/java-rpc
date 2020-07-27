@@ -65,7 +65,11 @@ public class SocketNioTcpRpcServer implements RpcServer {
                         ByteBuffer content=ByteBuffer.allocate(len);
                         client.read(content);
                         content.rewind();
+                        /**
+                         * 获取数据，通过协议层转换为request的对象，并添加给相应的handler去处理，并把处理结果返回回去。
+                         */
                         System.out.println(new String(content.array()));
+
                     }
                     if (key.isWritable()) {                //8
                         SocketChannel client =
