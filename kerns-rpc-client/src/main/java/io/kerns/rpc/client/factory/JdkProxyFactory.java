@@ -37,7 +37,7 @@ public class JdkProxyFactory implements ProxyFactory {
      * @return
      */
     public <T> T getProxy(Class<T> clz) {
-        return (T) Proxy.newProxyInstance(clz.getClassLoader(), clz.getInterfaces(), new JdkInvocationHandler(netClient,protocol,discover));
+        return (T) Proxy.newProxyInstance(clz.getClassLoader(), clz.getInterfaces(), new JdkInvocationHandler(netClient, protocol, discover));
     }
 
     static class JdkInvocationHandler implements InvocationHandler {
@@ -84,8 +84,8 @@ public class JdkProxyFactory implements ProxyFactory {
             //解密成为response对象
             Response response = protocol.decodeResponse(responseByte);
             //是否有异常信息
-            if (response.getException() != null) {
-                throw response.getException();
+            if (response.getCode() != "200") {
+                throw new Exception(response.getMsg());
             }
             return response.getResult();
         }
