@@ -36,8 +36,10 @@ public class JdkProxyFactory implements ProxyFactory {
      * @param <T>
      * @return
      */
-    public <T> T getProxy(Class<T> clz) {
-        return (T) Proxy.newProxyInstance(clz.getClassLoader(), clz.getInterfaces(), new JdkInvocationHandler(netClient, protocol, discover));
+    public <T> T getProxy(Class<T> inter) {
+        //如果传入的本身就是接口，就把接口直接当传入传入proxy，如果传入的是类，获取类的接口数据
+        Class<?>[] clz = new Class[]{inter};
+        return (T) Proxy.newProxyInstance(inter.getClassLoader(), clz, new JdkInvocationHandler(netClient, protocol, discover));
     }
 
     static class JdkInvocationHandler implements InvocationHandler {
@@ -81,6 +83,10 @@ public class JdkProxyFactory implements ProxyFactory {
             ServerInfo serverInfo = discover.discover(proxy);
             //通过网络包发送数据
             byte[] responseByte = netClient.send(serverInfo, requestByte);
+            if(requestByte.length==0){
+                throw new Exception("服务端没有数据返回");
+            }
+            System.out.println(new String(requestByte));
             //解密成为response对象
             Response response = protocol.decodeResponse(responseByte);
             //是否有异常信息
