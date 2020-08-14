@@ -4,6 +4,9 @@ import io.kerns.rpc.common.bean.ServerInfo;
 
 import java.net.Socket;
 
+/**
+ * 通过socket发送消息
+ */
 public class SocketNetClient implements NetClient {
 
     public byte[] send(ServerInfo serverInfo, byte[] request) {
